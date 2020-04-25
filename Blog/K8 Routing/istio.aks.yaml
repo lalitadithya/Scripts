@@ -1,0 +1,11 @@
+apiVersion: install.istio.io/v1alpha2
+kind: IstioControlPlane
+spec:
+  profile: default
+  values:
+    global:
+      defaultNodeSelector:
+        beta.kubernetes.io/os: linux
+      controlPlaneSecurityEnabled: true
+      mtls:
+        enabled: false

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vinyl-deployment
+  labels:
+    app: vinyl-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vinyl-api
+  template:
+    metadata:
+      labels:
+        app: vinyl-api
+    spec:
+      containers:
+      - name: vinyl-api
+        image: lalitadithya/acmecorpvinylproductcalalogueapi:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionString
+          value: "Server=tcp:sql-blog-dev.database.windows.net,1433;Database=AcmeCorpVinyl;User ID=lalitadithya;Password=c5h4Jxz%Rk*;Encrypt=true;Connection Timeout=30;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vinyl-api-service
+  labels:
+    app: vinyl-api
+spec:
+  ports:
+  - name: vinyl-api-inbound
+    port: 8000
+    targetPort: 80
+  selector:
+    app: vinyl-api

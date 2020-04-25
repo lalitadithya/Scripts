@@ -1,0 +1,52 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: public-gateway
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: book-api-vservice
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - public-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /BookCatalogue
+    route:
+    - destination:
+        port:
+          number: 9000
+        host: book-api-service
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vinyl-api-vservice
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - public-gateway
+  http:
+  - match:
+    - uri:
+        prefix: /VinylProductCatalogue
+    route:
+    - destination:
+        port:
+          number: 8000
+        host: vinyl-api-service

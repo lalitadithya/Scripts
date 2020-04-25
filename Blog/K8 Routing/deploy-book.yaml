@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: book-deployment
+  labels:
+    app: book-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: book-api
+  template:
+    metadata:
+      labels:
+        app: book-api
+    spec:
+      containers:
+      - name: book-api
+        image: lalitadithya/acmecorpbookcatalogueapi:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ConnectionString
+          value: "Server=tcp:sql-blog-dev.database.windows.net,1433;Database=AcmeCorpBook;User ID=lalitadithya;Password=c5h4Jxz%Rk*;Encrypt=true;Connection Timeout=30;"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: book-api-service
+  labels:
+    app: book-api
+spec:
+  ports:
+  - name: book-api-inbound
+    port: 9000
+    targetPort: 80
+  selector:
+    app: book-api
