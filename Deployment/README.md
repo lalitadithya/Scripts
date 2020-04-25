@@ -9,3 +9,6 @@ This script is used to set up IIS on a server and it will deploy a ASP .NET Core
 
 ### set-up-iis.bat
 This script is used to set up an IIS website for deploying ASP .NET Core website.
+
+### install-istio.yaml
+This YAML file is used to install the bare minimum Istio service mesh
